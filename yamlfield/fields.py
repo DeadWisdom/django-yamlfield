@@ -16,12 +16,14 @@ class YAMLField(models.TextField):
     def to_python(self, value):
         """
         Convert our YAML string to a Python object after we load it from the DB.
+
+        Uses yaml.safe_load for security.
         """
         if value == "":
             return None
         try:
             if isinstance(value, basestring):
-                return yaml.load(value)
+                return yaml.safe_load(value)
         except ValueError:
             pass
         return value
